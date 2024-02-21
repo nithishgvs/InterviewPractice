@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 public class MethodReferencesRunner {
 
   /**
-   * Method reference make  code more readable
+   * Method reference makes code more readable
    *
    * @param number
    */
