@@ -1,10 +1,7 @@
-package interview.priorityqueue;
+package interview.heaps;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.PriorityQueue;
@@ -22,10 +19,10 @@ public class TaskScheduler_621 {
       helperMap.put(ch, value + 1);
     }
 
-    PriorityQueue<Map.Entry<Character, Integer>> priorityQueue = new PriorityQueue<>(
+    PriorityQueue<Entry<Character, Integer>> priorityQueue = new PriorityQueue<>(
         (a, b) -> b.getValue() - a.getValue());
 
-    Queue<Map.Entry<Character, Integer>> queue = new ArrayDeque<>();
+    Queue<Entry<Character, Integer>> queue = new ArrayDeque<>();
 
     priorityQueue.addAll(helperMap.entrySet());
 
@@ -42,7 +39,7 @@ public class TaskScheduler_621 {
       }
 
       while (!queue.isEmpty()) {
-        Map.Entry<Character, Integer> polled = queue.poll();
+        Entry<Character, Integer> polled = queue.poll();
         polled.setValue(polled.getValue() - 1);
         if (polled.getValue() > 0) {
           priorityQueue.add(polled);
