@@ -1,41 +1,49 @@
 package interview.hashmap;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 public class RandomizedSet {
 
-  Set set;
+  List<Integer> list;
   Random random;
+  Map<Integer, Integer> map;
 
   public RandomizedSet() {
-    set = new HashSet();
+    list = new ArrayList<>();
+    map = new HashMap<>();
     random = new Random();
   }
 
   public boolean insert(int val) {
-
-    if (!set.contains(val)) {
-      set.add(val);
-      return true;
+    if (map.containsKey(val)) {
+      return false;
     }
-
-    return false;
+    map.put(val, list.size());
+    list.add(val);
+    return true;
   }
 
   public boolean remove(int val) {
-    if (set.contains(val)) {
-      set.remove(val);
-      return true;
+
+    if (!map.containsKey(val)) {
+      return false;
     }
-    return false;
+
+    int index = map.get(val);
+    map.put(list.get(list.size() - 1), index);
+    map.remove(val);
+    list.set(index, list.get(list.size() - 1));
+    list.remove(list.size() - 1);
+    return true;
   }
 
   public int getRandom() {
-    int size = set.size() - 1;
-    int index = random.nextInt(size + 1);
-    return (int) set.toArray()[index];
+    int index = random.nextInt(list.size());
+    return list.get(index);
   }
 
   public static void main(String[] args) {
