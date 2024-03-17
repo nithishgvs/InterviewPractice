@@ -33,7 +33,7 @@ public class LowestCommonAncestorBst_1650 {
 
     parent = q;
 
-    while (parent != null && !map.containsKey(parent.val)) {
+    while (!map.containsKey(parent.val)) {
       parent = parent.parent;
     }
 
