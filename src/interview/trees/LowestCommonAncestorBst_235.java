@@ -31,7 +31,7 @@ public class LowestCommonAncestorBst_235 {
   public void test() {
     TreeNode root = new HelperTree()
         .generateBinaryTree(new Integer[]{6, 2, 8, 0, 4, 7, 9, null, null, 3, 5});
-    lowestCommonAncestor(root, new TreeNode(2), new TreeNode(4));
+    lowestCommonAncestor(root, root.left, root.left.right);
   }
 
 }
