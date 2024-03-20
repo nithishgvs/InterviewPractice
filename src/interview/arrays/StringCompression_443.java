@@ -1,46 +1,46 @@
 package interview.arrays;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 public class StringCompression_443 {
 
   public int compress(char[] chars) {
-    Map<Character, Integer> map = new LinkedHashMap<>();
+    Map<Character, Integer> map = new HashMap<>();
     StringBuilder stringBuilder = new StringBuilder();
     for (int i = 0; i < chars.length; i++) {
-      Integer value = map.getOrDefault(chars[i], 0);
-      map.put(chars[i], value + 1);
-
-      if (i > 0 && chars[i - 1] != chars[i]) {
-        stringBuilder.append(chars[i - 1]);
-        helper(chars, map, i, stringBuilder);
-        map.remove(chars[i - 1]);
+      map.put(chars[i], map.getOrDefault(chars[i], 0) + 1);
+      if ((i > 0 && chars[i - 1] != chars[i])) {
+        final char ch = chars[i - 1];
+        final int number = map.get(ch);
+        stringBuilder.append(ch);
+        stringBuilder.append(numberConversion(number));
+        map.remove(ch);
       }
-
       if (i == chars.length - 1) {
         stringBuilder.append(chars[i]);
-        helper(chars, map, i + 1, stringBuilder);
+        if (map.get(chars[i]) > 1) {
+          stringBuilder.append(map.get(chars[i]));
+        }
       }
     }
 
     for (int i = 0; i < stringBuilder.length(); i++) {
       chars[i] = stringBuilder.charAt(i);
     }
-    return stringBuilder.length();
+
+    return stringBuilder.toString().length();
   }
 
-  private static void helper(char[] chars, Map<Character, Integer> map, int i,
-      StringBuilder stringBuilder) {
-    Integer num = map.get(chars[i - 1]);
+
+  private String numberConversion(int num) {
+    StringBuilder temp = new StringBuilder();
     if (num > 1) {
-      StringBuilder temp = new StringBuilder();
-      while (num > 0) {
-        int modulo = num % 10;
-        temp.append(modulo);
+      while (num != 0) {
+        temp.append(num % 10);
         num = num / 10;
       }
-      stringBuilder.append(temp.reverse());
     }
+    return temp.reverse().toString();
   }
 }
