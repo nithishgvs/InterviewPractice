@@ -1,7 +1,5 @@
 package interview.graph;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.Test;
 
 public class CountSubIslands_1905 {
