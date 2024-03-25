@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FileSystem {
+public class FileSystem1 {
   //1166. Design File System
 
   class TrieNode {
@@ -75,7 +75,7 @@ public class FileSystem {
     insertRecursively(node, string, value, ++index);
   }
 
-  public FileSystem() {
+  public FileSystem1() {
     root = new TrieNode();
   }
 
