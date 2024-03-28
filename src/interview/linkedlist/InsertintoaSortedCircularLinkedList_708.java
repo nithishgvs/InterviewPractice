@@ -88,7 +88,7 @@ public class InsertintoaSortedCircularLinkedList_708 {
     Node head2 = new Node(7);
     head1.next = head2;
     head2.next = head1;
-    insert(head1, 1);
+    insert(head1, 8);
   }
 
 }
