@@ -2,6 +2,7 @@ package interview.dynamicprogramming;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import org.junit.Test;
 
 public class MaximumProfitinJobScheduling_1235 {
 
@@ -67,5 +68,13 @@ public class MaximumProfitinJobScheduling_1235 {
 
     }
     return index;
+  }
+
+  @Test
+  public void test() {
+    int[] startTime = {1, 2, 3, 3};
+    int[] endTime = {1, 2, 5, 6};
+    int[] profit = {50, 10, 40, 70};
+    System.out.println(jobScheduling(startTime, endTime, profit));
   }
 }
