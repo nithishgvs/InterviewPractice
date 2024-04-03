@@ -50,7 +50,7 @@ public class BasicCalculatorII_227 {
 
   @Test
   public void test() {
-    System.out.println(calculate("1-1+1"));
+    System.out.println(calculate("1-12+11"));
     //System.out.println(calculate("3+2*12"));
   }
 
