@@ -4,24 +4,25 @@ import java.util.HashMap;
 import java.util.Map;
 import org.junit.Test;
 
-public class SubarraySumEqualsK_560 {
+public class SubarraySumEqualsK {
 
   public int subarraySum(int[] nums, int k) {
-    int result = 0;
 
-    Map<Integer, Integer> sumMap = new HashMap<>();
-    sumMap.put(0, 1);
-
+    int count = 0;
+    Map<Integer, Integer> prefixSum = new HashMap<>();
+    prefixSum.put(0, 1);
     int sum = 0;
-
     for (int i = 0; i < nums.length; i++) {
       sum += nums[i];
-      if (sumMap.containsKey(sum - k)) {
-        result += sumMap.get(sum - k);
+      if (prefixSum.containsKey(sum - k)) {
+        count += prefixSum.get(sum - k);
       }
-      sumMap.put(sum, sumMap.getOrDefault(sum, 0) + 1);
+
+      prefixSum.put(sum, prefixSum.getOrDefault(sum, 0) + 1);
     }
-    return result;
+
+    return count;
+
   }
 
   @Test
