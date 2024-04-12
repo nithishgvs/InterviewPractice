@@ -1,31 +1,32 @@
 package interview.arrays;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MovingAverage {
 
 
   int size;
-
-  int[] array = new int[1000000];
-
-  int index = -1;
+  int sum;
+  int index;
+  Map<Integer, Integer> prefixSum = new HashMap<>();
 
   public MovingAverage(int size) {
     this.size = size;
+    this.sum = 0;
+    this.index = 0;
   }
 
   public double next(int val) {
-    if (index > -1) {
-      int tempIndex = index + 1;
-      array[tempIndex] += val + array[tempIndex - 1];
-      index = tempIndex;
+    sum += val;
+    prefixSum.put(index, sum);
+    index++;
+    int prevIndex = index - size - 1;
+    if (!prefixSum.containsKey(prevIndex)) {
+      return (double) sum / prefixSum.size();
     } else {
-      array[++index] = val;
-    }
-
-    if (index - size >= 0) {
-      return (double) (array[index] - array[index - size]) / size;
-    } else {
-      return (double) array[index] / (index + 1);
+      int newValue = sum - prefixSum.get(prevIndex);
+      return (double) newValue / size;
     }
   }
 

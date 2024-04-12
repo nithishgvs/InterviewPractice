@@ -6,19 +6,22 @@ import org.junit.Test;
 
 public class Subsets_78 {
 
+  List<List<Integer>> result = new ArrayList<>();
+
   public List<List<Integer>> subsets(int[] nums) {
-    List<List<Integer>> result = new ArrayList<>();
-    helper(new ArrayList<>(), nums, 0, result);
+    helper(nums, 0, new ArrayList<>());
     return result;
   }
 
-  private void helper(List<Integer> currentList, int[] nums, int index,
-      List<List<Integer>> result) {
-    result.add(new ArrayList<>(currentList));
-    for (int i = index; i < nums.length; i++) {
-      currentList.add(nums[i]);
-      helper(currentList, nums, i + 1, result);
-      currentList.remove(currentList.size() - 1);
+  private void helper(int[] nums, int index, List<Integer> integersList) {
+    result.add(new ArrayList<>(integersList));
+    if (index == nums.length) {
+      return;
+    }
+    for (int i = index; index < nums.length; i++) {
+      integersList.add(nums[i]);
+      helper(nums, ++index, integersList);
+      integersList.remove(integersList.size() - 1);
     }
   }
 
