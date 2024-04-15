@@ -28,7 +28,7 @@ public class ShortestDistancefromAllBuildings_317 {
     for (int row = 0; row < m; row++) {
       for (int col = 0; col < n; col++) {
         if (grid[row][col] == 1) {
-          //Building Found we kick of BFS
+          //Building Found we kick off BFS
           int localDistance = Integer.MAX_VALUE;
           Queue<int[]> queue = new ArrayDeque<>();
           queue.add(new int[]{row, col, 0});
