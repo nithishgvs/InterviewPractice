@@ -2,6 +2,7 @@ package interview.miscellaneous;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ComparatorPractice {
@@ -89,6 +90,15 @@ public class ComparatorPractice {
 
     //Reverse Order
     Collections.sort(list, (a, b) -> b.team.compareTo(a.team));
+    System.out.println(list.get(0).team.equals('Z'));
+
+    //Character comparator
+    //Natural order
+    Collections.sort(list, Comparator.comparing(a -> a.team));
+    System.out.println(list.get(0).team.equals('A'));
+
+    //Reverse Order
+    Collections.sort(list, Comparator.comparing((Employer a) -> a.team).reversed());
     System.out.println(list.get(0).team.equals('Z'));
 
 
