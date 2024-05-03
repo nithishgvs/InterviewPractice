@@ -5,29 +5,26 @@ import org.junit.Test;
 public class RemoveNthNodeFromEndofList_19 {
 
   public ListNode removeNthFromEnd(ListNode head, int n) {
-    int count = 0;
-    ListNode current = head;
-    while (current != null) {
-      current = current.next;
-      count++;
+    //https://www.youtube.com/watch?v=XVuQxVej6y8
+    ListNode dummy = new ListNode(0);
+    dummy.next = head;
+    ListNode right = head;
+    ListNode left = dummy;
+
+    while (n > 0 && right != null) {
+      right = right.next;
+      n--;
     }
 
-    ListNode prev = null;
-    current = head;
+    //If right pointer moves ahead by N nodes and the left pointer starts from the dummy the gap between them is N and by the time right pointer reaches end we are at the N-1 node
 
-    if (count == n) {
-      return head.next;
+    while (right != null) {
+      left = left.next;
+      right = right.next;
     }
 
-    int counter = 0;
-    while (counter < count - n) {
-      prev = current;
-      current = current.next;
-      counter++;
-    }
-
-    prev.next = current.next;
-    return head;
+    left.next = left.next.next;
+    return dummy.next;
   }
 
   @Test
