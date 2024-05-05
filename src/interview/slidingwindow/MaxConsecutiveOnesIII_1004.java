@@ -6,27 +6,24 @@ public class MaxConsecutiveOnesIII_1004 {
 
   public int longestOnes(int[] nums, int k) {
 
+    int left = 0;
+    int zeroes = 0;
+
+    int start = 0;
+
     int max = 0;
-
-    int startIndex = 0;
-    int currentIndex = 0;
-    int temp = 0;
-
-    while (currentIndex < nums.length) {
-      if (nums[currentIndex] == 0) {
-        temp++;
+    while (start < nums.length) {
+      if (nums[start] == 0) {
+        zeroes++;
       }
-
-      while (temp > k) {
-        if (nums[startIndex] == 0) {
-          temp--;
+      while (zeroes > k) {
+        if (nums[left] == 0) {
+          zeroes--;
         }
-        startIndex++;
+        left++;
       }
-
-      max = Math.max(max, currentIndex - startIndex + 1);
-
-      currentIndex++;
+      max = Math.max(max, start - left + 1);
+      start++;
     }
 
     return max;
