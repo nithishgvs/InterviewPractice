@@ -1,7 +1,6 @@
-package interview.heaps;
+package interview.arrays;
 
 import java.util.Arrays;
-import java.util.PriorityQueue;
 import org.junit.Test;
 
 public class BoatstoSavePeople_881 {
