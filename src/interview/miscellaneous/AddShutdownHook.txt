@@ -1,0 +1,66 @@
+Shutdown Scenarios: Shutdown hooks are executed in scenarios such as:
+
+Normal termination (e.g., the program exits normally via System.exit()).
+Termination due to user interrupts (e.g., CTRL+C).
+Termination due to system shutdown or logoff.
+Termination due to OutOfMemoryError.
+Not Executed in Certain Scenarios:
+
+The JVM is abruptly terminated (e.g., using kill -9 on Unix/Linux systems).
+The JVM crashes.
+Order of Execution: Shutdown hooks are executed in the order they were registered. However, they are executed concurrently, so there's no guaranteed order of execution between hooks.
+
+Constraints: Shutdown hooks should complete their work quickly to avoid delaying the shutdown process. Long-running shutdown hooks can cause the JVM to appear to hang.
+
+Deregistering: Once registered, a shutdown hook can be removed using Runtime.removeShutdownHook(Thread hook).
+
+Explanation
+Register Shutdown Hook: Runtime.getRuntime().addShutdownHook(new Thread(() -> { ... })) registers a new thread as a shutdown hook. This thread executes the code within the run method when the JVM begins its shutdown sequence.
+
+Perform Cleanup: The cleanUpResources method is called within the shutdown hook to perform necessary cleanup tasks.
+
+Simulate Work: The main method simulates some work by sleeping for 5 seconds to keep the application running for a while.
+
+Trigger Shutdown: Uncommenting System.exit(0); would explicitly trigger JVM shutdown and invoke the registered shutdown hooks.
+
+Practical Use Cases
+Resource Management: Ensure that resources like database connections, file handles, and network sockets are properly closed.
+State Saving: Save application state or user data to persistent storage to ensure data is not lost.
+Logging: Log shutdown events or perform logging cleanup.
+Notification: Send notifications or alerts about the application's shutdown status.
+Considerations
+Concurrency: If you register multiple shutdown hooks, they will run concurrently. Ensure that your shutdown hooks are thread-safe if they share resources.
+Shutdown Delay: Avoid long-running tasks in shutdown hooks, as they can delay the shutdown process.
+Using addShutdownHook is a useful mechanism for ensuring that necessary cleanup operations are performed when your application terminates, thereby maintaining resource integrity and data consistency.
+
+public class ShutdownHookExample {
+
+    public static void main(String[] args) {
+        // Register a shutdown hook
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("Shutdown hook is running...");
+            // Perform cleanup tasks here
+            cleanUpResources();
+            System.out.println("Cleanup complete.");
+        }));
+
+        System.out.println("Application is running...");
+
+        // Simulate some work
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        System.out.println("Application is exiting...");
+        // Optionally, trigger JVM shutdown (uncomment to test)
+        // System.exit(0);
+    }
+
+    private static void cleanUpResources() {
+        // Example cleanup tasks
+        System.out.println("Releasing resources...");
+        // Release database connections, close files, etc.
+    }
+}

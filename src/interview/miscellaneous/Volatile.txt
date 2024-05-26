@@ -1,0 +1,64 @@
+The volatile keyword in Java is used to indicate that a variable's value will be modified by different threads. It serves as a lightweight synchronization mechanism that ensures visibility of changes to variables across threads. Here are the key points and an example to understand how volatile works:
+
+Key Points
+Visibility: When a variable is declared as volatile, it ensures that any read of the variable will always return the most recent write by any thread. This guarantees visibility of changes across threads.
+Atomicity: While volatile ensures visibility, it does not guarantee atomicity for compound actions. For example, operations like i++ (read-modify-write) are not atomic.
+No Caching: The value of a volatile variable is always read from the main memory, and not from a thread's local cache.
+Ordering: It prevents instruction reordering by the compiler and CPU, which is crucial for maintaining consistency in multi-threaded programs.
+Example
+Here’s a simple example to illustrate the use of volatile:
+
+public class VolatileExample {
+    private static volatile boolean running = true;
+
+    public static void main(String[] args) throws InterruptedException {
+        Thread thread = new Thread(() -> {
+            while (running) {
+                // Perform some work
+                System.out.println("Thread is running...");
+            }
+            System.out.println("Thread has stopped.");
+        });
+
+        thread.start();
+
+        // Sleep for 1 second
+        Thread.sleep(1000);
+
+        // Stop the thread by setting running to false
+        running = false;
+
+        // Wait for the thread to finish
+        thread.join();
+    }
+}
+
+
+Explanation
+Volatile Variable: The running variable is declared as volatile, ensuring that changes to this variable are visible to all threads.
+Thread Execution: The thread continuously runs a loop while running is true.
+Main Thread: After sleeping for 1 second, the main thread sets running to false, signaling the other thread to stop.
+Visibility Guarantee: Because running is volatile, the change made by the main thread is immediately visible to the worker thread, causing it to exit the loop and terminate.
+When to Use Volatile
+Flags: Ideal for variables that act as flags or signals between threads.
+Singleton Instances: Often used in the double-checked locking pattern for singleton initialization.
+State Indicators: Useful for indicating states in multi-threaded environments where the state changes infrequently.
+Limitations of Volatile
+No Atomicity: volatile does not provide atomicity for compound operations.
+Complex Synchronization: For complex synchronization, other constructs like synchronized blocks or java.util.concurrent atomic classes should be used.
+Summary
+The volatile keyword in Java is a simple and efficient way to ensure visibility of changes to variables across multiple threads. It is especially useful for simple flags or state indicators where complex synchronization is not required. However, for more complex scenarios involving atomicity and coordinated access, other synchronization mechanisms should be considered.
+
+
+Volatile members are never cached in CPU by jvm, they are always read from main memory i.e. from stack where variable lives.
+It is possible for multiple CPU’s to exist on machine, so it is possibility that thread might cache different values in different CPU’s for same variable, so it’s important that value is not cached in CPU and always read from main memory.
+
+ Let’s discuss a scenario where non-volatile variable is used :
+int x=0;  // Let’s say we have variable x with value 0, in main memory value of x is 0 and in cache value of x is also 0.
+x++;  //increment done by thread1, so now in main memory  value of x is 1 but it might happen somehow that value is not updated in cache, so value of x in cache is still 0.
+Now, lets say thread2 try to read that value, as value is cached, it will read read value from cache only, so value read of x will be 0 (but actual value of x is 1), which of course is a synchronization problem.
+
+ Let’s discuss a scenario where volatile variable is used :
+int x=0;  // Let’s say we have variable x with value 0, in main memory value of x is 0 and it’s not cached (as volatile variables are not cached).
+x++;  //increment done by thread1, so now in main memory  value of x is 1 and it’s not cached.
+Now, lets say thread2 try to read that value, as value is not cached, it will read read value from main memory, so value read of x will be 1 (and actual value of x is 1), we have solved synchronization problem.
