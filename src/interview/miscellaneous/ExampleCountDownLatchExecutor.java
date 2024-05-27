@@ -4,6 +4,12 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * A CountDownLatch is a synchronization aid that allows one or more threads to wait until a set of
+ * operations being performed in other threads completes. It's initialized with a count, and each
+ * thread that needs to wait for the count to reach zero calls the await() method. Threads
+ * performing the operations decrement the count by calling the countDown() method.
+ */
 public class ExampleCountDownLatchExecutor {
 
   public static void main(String[] args) throws InterruptedException {

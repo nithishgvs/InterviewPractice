@@ -5,6 +5,10 @@ import java.io.FileReader;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Prefix matching find common sentences in multiple files
+ */
+
 class TrieNode {
   Map<Character, TrieNode> children = new HashMap<>();
   Set<String> sentences = new HashSet<>();
@@ -67,12 +71,17 @@ public class CommonSentencesFinderConfluent {
 
   public static Set<String> findCommonSentences(List<Trie> tries) {
     if (tries.isEmpty()) return Collections.emptySet();
-    Set<String> commonSentences = new HashSet<>(tries.get(0).root.sentences);
+    Set<String> commonSentences = new HashSet<>();
+
+    // Initialize commonSentences with sentences from the first trie
+    Trie firstTrie = tries.get(0);
+    commonSentences.addAll(getNonEmptySentences(firstTrie.root));
 
     for (int i = 1; i < tries.size(); i++) {
       Set<String> currentSet = new HashSet<>();
+      Trie trie = tries.get(i);
       for (String sentence : commonSentences) {
-        currentSet.addAll(tries.get(i).search(sentence));
+        currentSet.addAll(trie.search(sentence));
       }
       commonSentences.retainAll(currentSet);
       if (commonSentences.isEmpty()) break;
@@ -80,6 +89,20 @@ public class CommonSentencesFinderConfluent {
 
     return commonSentences;
   }
+
+  private static Set<String> getNonEmptySentences(TrieNode node) {
+    Set<String> sentences = new HashSet<>();
+    for (String sentence : node.sentences) {
+      if (!sentence.isEmpty()) {
+        sentences.add(sentence);
+      }
+    }
+    for (TrieNode child : node.children.values()) {
+      sentences.addAll(getNonEmptySentences(child));
+    }
+    return sentences;
+  }
+
 
   public static void main(String[] args) {
     // List of file paths

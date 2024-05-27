@@ -15,7 +15,7 @@ class SumIntegerCallable implements Callable<Integer> {
   }
 
   @Override
-  public Integer call() throws Exception {
+  public Integer call() {
     Integer sum = 0;
 
     for (int i = 0; i < number; i++) {

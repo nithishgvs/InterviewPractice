@@ -39,6 +39,10 @@ public class ExecutorServiceRunner {
         executorService.execute(new Task(5));
         executorService.execute(new Task(6));
         executorService.execute(new Task(7));
+        executorService.execute(()->{
+            System.out.println(Thread.currentThread().getName());
+            System.out.println("Hello");
+        });
         executorService.shutdown();
 
     }
