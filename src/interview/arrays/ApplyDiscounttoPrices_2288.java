@@ -36,7 +36,7 @@ public class ApplyDiscounttoPrices_2288 {
   public void tst() {
     //System.out.println(discountPrices("there are $1 $2 and 5$ candies in the shop", 50));
     //System.out.println(discountPrices("1 2 $3 4 $5 $6 7 8$ $9 $10$", 100));
-    //System.out.println(discountPrices("ka3caz4837h6ada4 r1 $602", 9));
+    System.out.println(discountPrices("ka3caz4837h6ada4 r1 $602", 9));
     System.out.println(discountPrices("706hzu76jjh7yufr5x9ot60v149k5 $7651913186 pw2o $6", 28));
   }
 
