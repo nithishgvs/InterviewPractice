@@ -3,6 +3,7 @@ package interview.miscellaneous;
 import java.io.*;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -32,20 +33,27 @@ class MemoryOptimizedFileReader {
 
   // Method to read a huge file while optimizing memory usage
   public void readHugeFile(String filePath) {
-    try (RandomAccessFile file = new RandomAccessFile(filePath, "r");
-        FileChannel channel = file.getChannel()) {
-
+    try (RandomAccessFile randomAccessFile = new RandomAccessFile("file1.txt", "r")) {
+      FileChannel channel = randomAccessFile.getChannel();
       long fileSize = channel.size();
-      MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_ONLY, 0, fileSize);
+      long chunkSize = 1024; // Example: read in 1KB chunks
+      long position = 0;
 
-      // Read data from buffer
-      byte[] data = new byte[(int) fileSize];
-      buffer.get(data);
+      while (position < fileSize) {
+        long remaining = fileSize - position;
+        long size = Math.min(chunkSize, remaining);
+        MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_ONLY, position, size);
 
-      // Process the data here
-      System.out.println(new String(data)); // Example: Print data to console
+        // Read data from buffer
+        byte[] data = new byte[(int) size];
+        buffer.get(data);
 
-    } catch (IOException e) {
+        // Process the data here
+        System.out.println(new String(data, StandardCharsets.UTF_8)); // Example: Print data to console
+
+        position += size; // Move to the next chunk
+      }
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }

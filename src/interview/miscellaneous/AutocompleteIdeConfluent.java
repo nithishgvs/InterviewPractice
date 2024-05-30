@@ -80,10 +80,11 @@ public class AutocompleteIdeConfluent {
     fm.addFunction("RidePrinter");
     fm.addFunction("ResumePanel");
 
-    System.out.println(fm.getMatches("R")); // Output: ["ResumePanel", "RidePrinter"]
-    System.out.println(fm.getMatches("Re")); // Output: ["ResumePanel"]
-    System.out.println(fm.getMatches("RP")); // Output: ["ResumePanel", "RidePrinter"]
-    System.out.println(fm.getMatches("RPr")); // Output: ["RidePrinter"]
+//    System.out.println(fm.getMatches("R")); // Output: ["ResumePanel", "RidePrinter"]
+//    System.out.println(fm.getMatches("Re")); // Output: ["ResumePanel"]
+//    System.out.println(fm.getMatches("RP")); // Output: ["ResumePanel", "RidePrinter"]
+//    System.out.println(fm.getMatches("RPr")); // Output: ["RidePrinter"]
+    System.out.println(fm.getMatches("RZ"));
   }
 }
 

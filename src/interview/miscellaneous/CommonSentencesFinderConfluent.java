@@ -52,6 +52,7 @@ public class CommonSentencesFinderConfluent {
 
   public static Trie buildTrieFromFile(String filename) {
     Trie trie = new Trie();
+
     try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
       String line;
       while ((line = reader.readLine()) != null) {
