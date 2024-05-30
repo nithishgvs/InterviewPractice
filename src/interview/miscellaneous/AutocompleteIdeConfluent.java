@@ -31,8 +31,8 @@ public class AutocompleteIdeConfluent {
     TrieNode current = root;
     for (char ch : functionName.toCharArray()) {
       current = current.children.computeIfAbsent(ch, k -> new TrieNode());
-      current.childFunctions.add(functionName);
     }
+    current.childFunctions.add(functionName);
     current.endOfWord = true;
   }
 
