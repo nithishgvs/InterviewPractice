@@ -4,6 +4,19 @@ import java.util.*;
 
 public class AutocompleteIdeConfluent {
 
+  /**
+   * Time Complexity:
+   *
+   * Insertion: O(m), where m is the length of the string being inserted. In the worst case, each character in the string needs to be inserted into a new node.
+   * Search: O(m), where m is the length of the search prefix. In the worst case, the search might need to traverse the entire path in the Trie corresponding to the prefix.
+   * Autocomplete: O(m + k), where m is the length of the search prefix and k is the number of matching suggestions. This considers the search part (O(m)) and the additional time to iterate through matching suggestions (O(k)).
+   *
+   *
+   * Space Complexity:
+   *
+   * Worst Case: O(Σ |w| * T), where Σ is the size of the alphabet, |w| is the average word length in the dataset, and T is the total number of words in the dataset. This represents the maximum space required to store all possible combinations of characters in the worst case.
+   * Average Case: In practice, the space complexity is typically less than the worst case. It depends on the actual data stored and the distribution of characters and words.
+   */
   private static class TrieNode {
     Map<Character, TrieNode> children;
     boolean endOfWord;
