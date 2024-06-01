@@ -45,10 +45,6 @@ import java.util.*;
  * findMatches({String, Integer, Integer}) -> [FuncA, FuncB]
  */
 
-import java.util.*;
-
-import java.util.*;
-
 class Function {
   String name;
   List<String> argumentTypes;
@@ -78,10 +74,10 @@ class TrieNodeFunction {
   }
 }
 
-class FunctionLibrary {
+class FunctionLibraryConfluent {
   private TrieNodeFunction root;
 
-  public FunctionLibrary() {
+  public FunctionLibraryConfluent() {
     this.root = new TrieNodeFunction();
   }
 
@@ -135,7 +131,7 @@ class FunctionLibrary {
   }
 
   public static void main(String[] args) {
-    FunctionLibrary library = new FunctionLibrary();
+    FunctionLibraryConfluent library = new FunctionLibraryConfluent();
     Set<Function> functions = new HashSet<>(Arrays.asList(
         new Function("FuncA", Arrays.asList("String", "Integer", "Integer"), false),
         new Function("FuncB", Arrays.asList("String", "Integer"), true),
