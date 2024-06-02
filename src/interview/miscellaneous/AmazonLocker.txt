@@ -1,0 +1,139 @@
+To address the interview question about designing an OTP system and the related GET or POST APIs for managing a physical locker system, I'll outline a solution that includes the following:
+
+OTP System Design:
+
+Generation of secure OTPs.
+Storage and validation of OTPs.
+Expiry and security considerations for OTPs.
+API Endpoints:
+
+POST to request a locker and generate an OTP.
+POST to verify OTP and access the locker.
+OTP System Design
+OTP Generation:
+
+Use a secure random number generator to create OTPs.
+Ensure OTPs are of sufficient length and complexity.
+OTP Storage:
+
+Store OTPs in a secure database along with the locker ID, user ID, and timestamp.
+Implement mechanisms to ensure OTPs expire after a certain period.
+OTP Validation:
+
+Verify the OTP against stored values.
+Ensure the OTP is still valid (not expired).
+API Endpoints
+POST /requestLocker
+
+Description: Request a locker and generate an OTP.
+Request Body:
+json
+Copy code
+{
+  "userId": "string",
+  "orderId": "string"
+}
+Response:
+json
+Copy code
+{
+  "lockerId": "string",
+  "otp": "string"
+}
+POST /verifyOTP
+
+Description: Verify the OTP to access the locker.
+Request Body:
+json
+Copy code
+{
+  "lockerId": "string",
+  "otp": "string"
+}
+Response:
+json
+Copy code
+{
+  "status": "success/failure",
+  "message": "string"
+}
+Example Implementation
+OTP Service
+
+java
+Copy code
+import java.security.SecureRandom;
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
+
+public class OTPService {
+    private static final long OTP_VALIDITY_DURATION_MS = 300_000; // 5 minutes
+    private Map<String, OTPDetails> otpStorage = new HashMap<>();
+    private SecureRandom random = new SecureRandom();
+
+    public String generateOTP(String lockerId) {
+        String otp = String.format("%06d", random.nextInt(1_000_000)); // 6-digit OTP
+        OTPDetails otpDetails = new OTPDetails(otp, Instant.now().toEpochMilli());
+        otpStorage.put(lockerId, otpDetails);
+        return otp;
+    }
+
+    public boolean verifyOTP(String lockerId, String otp) {
+        OTPDetails otpDetails = otpStorage.get(lockerId);
+        if (otpDetails == null) return false;
+        if (Instant.now().toEpochMilli() - otpDetails.timestamp > OTP_VALIDITY_DURATION_MS) return false;
+        return otpDetails.otp.equals(otp);
+    }
+
+    private static class OTPDetails {
+        String otp;
+        long timestamp;
+
+        OTPDetails(String otp, long timestamp) {
+            this.otp = otp;
+            this.timestamp = timestamp;
+        }
+    }
+}
+API Controllers
+
+java
+Copy code
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/locker")
+public class LockerController {
+    private OTPService otpService = new OTPService();
+
+    @PostMapping("/requestLocker")
+    public Map<String, String> requestLocker(@RequestBody Map<String, String> request) {
+        String userId = request.get("userId");
+        String orderId = request.get("orderId");
+        String lockerId = "locker123"; // Simplified locker assignment logic
+        String otp = otpService.generateOTP(lockerId);
+        // Save locker assignment to database
+        return Map.of("lockerId", lockerId, "otp", otp);
+    }
+
+    @PostMapping("/verifyOTP")
+    public Map<String, String> verifyOTP(@RequestBody Map<String, String> request) {
+        String lockerId = request.get("lockerId");
+        String otp = request.get("otp");
+        boolean isValid = otpService.verifyOTP(lockerId, otp);
+        if (isValid) {
+            return Map.of("status", "success", "message", "Access granted");
+        } else {
+            return Map.of("status", "failure", "message", "Invalid or expired OTP");
+        }
+    }
+}
+Summary
+OTP Generation: We generate a 6-digit OTP using a secure random number generator and store it in a map with a timestamp.
+OTP Storage: OTPs are stored in a HashMap along with the locker ID and timestamp.
+OTP Validation: We check the OTP against the stored value and ensure it hasn't expired (within 5 minutes).
+API Endpoints:
+POST /requestLocker: Assigns a locker and generates an OTP.
+POST /verifyOTP: Verifies the OTP for accessing the locker.
+This solution ensures secure OTP generation and validation and provides the necessary API endpoints for locker and OTP management.
