@@ -3,7 +3,7 @@ package interview.trees;
 import java.util.HashSet;
 import java.util.Set;
 
-public class BinaryTreeCameras_986 {
+public class BinaryTreeCameras_968 {
 
 
   int cameras = 0;

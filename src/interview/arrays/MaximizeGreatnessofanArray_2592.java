@@ -18,7 +18,6 @@ public class MaximizeGreatnessofanArray_2592 {
 
         for (int num : nums) {
             Integer key = map.ceilingKey(num + 1);
-
             if (key != null && key.intValue() > num) {
                 count++;
                 map.put(key.intValue(), map.get(key.intValue()) - 1);
@@ -36,7 +35,7 @@ public class MaximizeGreatnessofanArray_2592 {
 
     @Test
     public void test() {
-        int[] nums = {1,2,3,4};
+        int[] nums = {1, 2, 3, 4};
         System.out.println(maximizeGreatness(nums));
     }
 }
